@@ -2,15 +2,15 @@
 
 ## Register User API
 
-Endpoint :  POST /api/users 
+Endpoint : POST /api/users
 
 Request Body :
 
 ```json
 {
-  "username" : "pzn",
-  "password" : "rahasia",
-  "name" : "Programmer Zaman Now"
+  "username": "muhammadisa",
+  "password": "12345678",
+  "name": "Muhammad Isa Nuruddin"
 }
 ```
 
@@ -18,18 +18,18 @@ Response Body Success :
 
 ```json
 {
-  "data" : {
-    "username" : "pzn",
-    "name" : "Programmer Zaman Now"
+  "data": {
+    "username": "muhammadisa",
+    "name": "Muhammad Isa Nuruddin"
   }
 }
 ```
 
-Response Body Error : 
+Response Body Error :
 
 ```json
 {
-  "errors" : "Username already registered"
+  "errors": "Username already registered"
 }
 ```
 
@@ -41,17 +41,17 @@ Request Body :
 
 ```json
 {
-  "username" : "pzn",
-  "password" : "rahasia"
+  "username": "muhammadisa",
+  "password": "12345678"
 }
 ```
 
-Response Body Success : 
+Response Body Success :
 
 ```json
 {
-  "data" : {
-    "token" : "unique-token"
+  "data": {
+    "token": "unique-token"
   }
 }
 ```
@@ -60,7 +60,7 @@ Response Body Error :
 
 ```json
 {
-  "errors" : "Username or password wrong"
+  "errors": "Username or password wrong"
 }
 ```
 
@@ -69,33 +69,34 @@ Response Body Error :
 Endpoint : PATCH /api/users/current
 
 Headers :
-- Authorization : token 
+
+- Authorization : token
 
 Request Body :
 
 ```json
 {
-  "name" : "Programmer Zaman Now Lagi", // optional
-  "password" : "new password" // optional
+  "name": "Muhammad Isa Nuruddin Update", // optional
+  "password": "new password" // optional
 }
 ```
 
-Response Body Success : 
+Response Body Success :
 
 ```json
 {
-  "data" : {
-    "username" : "pzn",
-    "name" : "Programmer Zaman Now Lagi"
+  "data": {
+    "username": "muhammadisa",
+    "name": "Muhammad Isa Nuruddin Update"
   }
 }
 ```
 
-Response Body Error : 
+Response Body Error :
 
 ```json
 {
-  "errors" : "Name length max 100"
+  "errors": "Name length max 100"
 }
 ```
 
@@ -104,24 +105,25 @@ Response Body Error :
 Endpoint : GET /api/users/current
 
 Headers :
+
 - Authorization : token
 
 Response Body Success:
 
 ```json
 {
-  "data" : {
-    "username" : "pzn",
-    "name" : "Programmer Zaman Now"
+  "data": {
+    "username": "muhammadisa",
+    "name": "Muhammad Isa Nuruddin"
   }
 }
 ```
 
-Response Body Error : 
+Response Body Error :
 
 ```json
 {
-  "errors" : "Unauthorized"
+  "errors": "Unauthorized"
 }
 ```
 
@@ -130,20 +132,21 @@ Response Body Error :
 Endpoint : DELETE /api/users/logout
 
 Headers :
+
 - Authorization : token
 
-Response Body Success : 
+Response Body Success :
 
 ```json
 {
-  "data" : "OK"
+  "data": "OK"
 }
 ```
 
-Response Body Error : 
+Response Body Error :
 
 ```json
 {
-  "errors" : "Unauthorized"
+  "errors": "Unauthorized"
 }
 ```
