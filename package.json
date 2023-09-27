@@ -1,0 +1,24 @@
+{
+  "name": "contact-management-api",
+  "version": "1.0.0",
+  "description": "conract management",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/muhammadisa226/Contact-Management-Api.git"
+  },
+  "keywords": [
+    "contact",
+    "user",
+    "address"
+  ],
+  "author": "Muhammad Isa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/muhammadisa226/Contact-Management-Api/issues"
+  },
+  "homepage": "https://github.com/muhammadisa226/Contact-Management-Api#readme"
+}
