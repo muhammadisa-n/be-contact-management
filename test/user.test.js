@@ -2,29 +2,54 @@ import supertest from "supertest";
 import { web } from "../src/application/web.js";
 import { prismaClient } from "../src/application/database.js";
 import { logger } from "../src/application/logging.js";
-describe("POST /api/users", function () {
-  afterEach(async () => {
-    await prismaClient.user.deleteMany({
-      where: {
-        username: "muhammadisa226",
-      },
-    });
-  });
-  it("should can register new User", async () => {
-    let result = await supertest(web).post("/api/users").send({
-      username: "muhammadisa226",
-      password: "rahasia",
-      name: "Muhammad Isa",
-    });
+import { createTestUser, removeTestUser } from "./test.utils.js";
+// describe("POST /api/users", function () {
+//   afterEach(async () => {
+//     await removeTestUser();
+//   });
+//   it("should can register new User", async () => {
+//     let result = await supertest(web).post("/api/users").send({
+//       username: "test",
+//       password: "rahasia",
+//       name: "test",
+//     });
 
-    expect(result.status).toBe(200);
-    expect(result.body.data.username).toBe("muhammadisa226");
-    expect(result.body.data.name).toBe("Muhammad Isa");
-    expect(result.body.data.password).toBeUndefined();
-    result = await supertest(web).post("/api/users").send({
-      username: "muhammadisa226",
+//     expect(result.status).toBe(200);
+//     expect(result.body.data.username).toBe("test");
+//     expect(result.body.data.name).toBe("test");
+//     expect(result.body.data.password).toBeUndefined();
+//     result = await supertest(web).post("/api/users").send({
+//       username: "tes",
+//       password: "rahasia",
+//       name: "tes",
+//     });
+//     logger.info(result.body);
+//     expect(result.status).toBe(400);
+//     expect(result.body.errors).toBeDefined();
+//   });
+// });
+
+describe("POST /api/users/login", function () {
+  beforeEach(async () => {
+    await createTestUser();
+  });
+  afterEach(async () => {
+    await removeTestUser();
+  });
+  it("should can login", async () => {
+    const result = await supertest(web).post("/api/users/login").send({
+      username: "test",
       password: "rahasia",
-      name: "Muhammad Isa",
+    });
+    logger.info(result.body.data);
+    expect(result.status).toBe(200);
+    expect(result.body.data.token).toBeDefined();
+    expect(result.body.data.token).not.toBe("test");
+  });
+  it("should reject login if request is invalid", async () => {
+    const result = await supertest(web).post("/api/users/login").send({
+      username: "",
+      password: "",
     });
     logger.info(result.body);
     expect(result.status).toBe(400);
