@@ -25,8 +25,8 @@ jobs:
           ssh -i ~/.ssh/id_ed25519 ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-            cd /var/www/${{ secrets.VPS_USER }}/prod/be-contact
-            git config --global --add safe.directory /var/www/${{ secrets.VPS_USER }}/prod/be-contact
+            cd /var/www/${{ secrets.VPS_USER }}/prod/contact-management/be-contact-management
+            git config --global --add safe.directory /var/www/${{ secrets.VPS_USER }}/prod/contact-management/be-contact-management
             git pull origin main
             npm install
             npx prisma migrate dev
