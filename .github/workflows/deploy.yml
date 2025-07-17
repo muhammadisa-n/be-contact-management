@@ -29,6 +29,5 @@ jobs:
             git config --global --add safe.directory /var/www/${{ secrets.VPS_DOMAIN }}/contact-management/be-contact-management
             git pull origin main
             npm install
-            npx prisma migrate dev
             pm2 restart be-contact-management
           EOF

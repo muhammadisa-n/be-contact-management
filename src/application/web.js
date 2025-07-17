@@ -6,6 +6,6 @@ import cors from "cors";
 export const web = express();
 web.use(express.json());
 web.use(cors());
-web.use("/be-contact-management", publicRouter);
-web.use("/be-contact-management", userRouter);
+web.use(publicRouter);
+web.use(userRouter);
 web.use(errorMiddleware);
