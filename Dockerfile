@@ -19,6 +19,6 @@ COPY . .
 # Generate Prisma client
 RUN npx prisma generate
 
-EXPOSE 18000
+EXPOSE 17000
 
-CMD ["node", "src/index.js"]
+CMD ["node", "src/main.js"]
