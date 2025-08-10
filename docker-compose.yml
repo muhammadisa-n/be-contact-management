@@ -1,5 +1,5 @@
 services:
-  be-portfolio:
+  be-contact-management:
     container_name: be-contact-management
     image: be_contact_management_image
     build: .
