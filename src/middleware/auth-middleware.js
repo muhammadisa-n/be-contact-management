@@ -1,5 +1,6 @@
 import { prismaClient } from "../application/database.js";
 import axios from "axios";
+import bcrypt from "bcrypt";
 
 export const authMiddleware = async (req, res, next) => {
   const mode = process.env.NODE_ENV;
@@ -31,7 +32,24 @@ export const authMiddleware = async (req, res, next) => {
       return res.status(401).json({ errors: "Unauthorized" });
     }
 
-    req.user = ssoResponse.data.data.user;
+    const ssoUser = ssoResponse.data.data.user;
+    const username = ssoUser.email;
+    let user = await prismaClient.user.findUnique({
+      where: { username },
+    });
+    if (!user) {
+      const hashedPassword = await bcrypt.hash("123456", 10);
+      user = await prismaClient.user.create({
+        data: {
+          username,
+          password: hashedPassword,
+          name: ssoUser.fullName,
+          token: null,
+        },
+      });
+    }
+
+    req.user = user;
     return next();
   } catch (err) {
     console.error("SSO verification failed:", err.message);
