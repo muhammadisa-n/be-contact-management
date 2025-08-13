@@ -12,7 +12,6 @@ publicRouter.get("/api/verify-sso", async (req, res) => {
   try {
     const token = req.cookies.sso_token;
     if (!token) return res.status(401).json({ error: "Not logged in" });
-    console.log(token);
     const response = await axios.get(`${process.env.AUTH_SERVICE_URL}/me`, {
       headers: { Authorization: `Bearer ${token}` },
     });
