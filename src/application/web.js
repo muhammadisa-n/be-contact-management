@@ -4,7 +4,7 @@ import { mainRouter } from "../routes/main-router.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import "dotenv/config";
-dotenv.config();
+
 export const web = express();
 web.use(express.json());
 web.use(

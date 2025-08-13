@@ -1,7 +1,7 @@
 import express from "express";
 import userControiller from "../controllers/user-controiller.js";
-import dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
+
 const publicRouter = new express.Router();
 publicRouter.post("/api/users/register", userControiller.register);
 publicRouter.post("/api/users/login", userControiller.login);
