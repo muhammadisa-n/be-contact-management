@@ -1,7 +1,8 @@
 import { prismaClient } from "../application/database.js";
 import axios from "axios";
 import bcrypt from "bcrypt";
-
+import "dotenv/config";
+import axios from "axios";
 export const authMiddleware = async (req, res, next) => {
   const mode = process.env.NODE_ENV;
   if (mode === "development") {
