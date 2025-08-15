@@ -10,11 +10,12 @@ publicRouter.get("/api/verify-sso", async (req, res) => {
     return res.status(400).json({ error: "SSO only available in production" });
   }
   try {
-    const token = req.cookies.sso_token;
-    if (!token) return res.status(401).json({ error: "Not logged in" });
-    const response = await axios.get(`${process.env.AUTH_SERVICE_URL}/me`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const response = await axios.get(
+      `${process.env.SSO_SERVICE_URL}/api/verify-sso`,
+      {
+        headers: { "x-app-key": process.env.SSO_API_KEY },
+      }
+    );
 
     return res.status(200).json({ user: response.data });
   } catch (err) {

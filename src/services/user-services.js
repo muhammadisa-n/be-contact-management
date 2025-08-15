@@ -9,6 +9,8 @@ import { prismaClient } from "../application/database.js";
 import { ResponseError } from "../error/response-error.js";
 import { v4 as uuid } from "uuid";
 import bcrypt from "bcrypt";
+import axios from "axios";
+import "dotenv/config";
 
 const register = async (request) => {
   const user = validate(registerUserValidation, request);
@@ -99,19 +101,40 @@ const update = async (request) => {
 
 const logout = async (username) => {
   username = validate(getUserValidation, username);
-  const user = await prismaClient.user.findUnique({
-    where: { username: username },
-  });
-  if (!user) {
-    throw new ResponseError(404, "User is not found");
+  const mode = process.env.NODE_ENV;
+  if (mode === "development") {
+    const user = await prismaClient.user.findUnique({
+      where: { username: username },
+    });
+    if (!user) {
+      throw new ResponseError(404, "User is not found");
+    }
+    return prismaClient.user.update({
+      where: { username: username },
+      data: { token: null },
+      select: {
+        username: true,
+      },
+    });
   }
-  return prismaClient.user.update({
-    where: { username: username },
-    data: { token: null },
-    select: {
-      username: true,
-    },
-  });
+
+  try {
+    const ssoResponse = await axios.get(
+      `${process.env.SSO_SERVICE_URL}/api/logout`,
+      {
+        headers: {
+          "x-app-key": process.env.SSO_API_KEY,
+        },
+      }
+    );
+
+    if (ssoResponse.status !== 200) {
+      return res.status(401).json({ errors: "Unauthorized" });
+    }
+    return res.status(200).json({ message: "Logged out" });
+  } catch (err) {
+    return res.status(401).json({ errors: "Unauthorized" });
+  }
 };
 
 export default {

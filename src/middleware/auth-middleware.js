@@ -1,6 +1,6 @@
 import { prismaClient } from "../application/database.js";
-import axios from "axios";
 import bcrypt from "bcrypt";
+import axios from "axios";
 import "dotenv/config";
 export const authMiddleware = async (req, res, next) => {
   const mode = process.env.NODE_ENV;
@@ -18,15 +18,14 @@ export const authMiddleware = async (req, res, next) => {
     return next();
   }
   try {
-    const ssoToken = req.cookies.sso_token;
-    if (!ssoToken) {
-      return res.status(401).json({ errors: "Unauthorized" });
-    }
-    const ssoResponse = await axios.get(`${process.env.AUTH_SERVICE_URL}/me`, {
-      headers: {
-        Authorization: `Bearer ${ssoToken}`,
-      },
-    });
+    const ssoResponse = await axios.get(
+      `${process.env.SSO_SERVICE_URL}/api/verify-sso`,
+      {
+        headers: {
+          "x-app-key": process.env.SSO_API_KEY,
+        },
+      }
+    );
 
     if (ssoResponse.status !== 200 || !ssoResponse.data?.data?.user) {
       return res.status(401).json({ errors: "Unauthorized" });
