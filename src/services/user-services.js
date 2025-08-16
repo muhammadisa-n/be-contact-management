@@ -119,26 +119,24 @@ const logout = async (username, token) => {
   }
 
   try {
-    const ssoResponse = await axios.post(
+    const response = await axios.post(
       `${process.env.SSO_SERVICE_URL}/api/logout`,
       {
-        "x-app-key": process.env.SSO_APP_KEY,
+        app_key: process.env.SSO_APP_KEY,
       },
       {
         headers: {
           "x-token": token,
-          withCredentials: true,
         },
       }
     );
 
-    if (ssoResponse.status !== 200) {
+    if (response.status !== 200) {
       throw new ResponseError(404, "User is not found");
     }
     return true;
   } catch (err) {
     throw new ResponseError(404, err.message);
-    console.error(err);
   }
 };
 
