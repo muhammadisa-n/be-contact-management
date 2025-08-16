@@ -133,11 +133,11 @@ const logout = async (username, token) => {
     );
 
     if (ssoResponse.status !== 200) {
-      return res.status(401).json({ errors: "Unauthorized" });
+      throw new ResponseError(404, "User is not found");
     }
-    return res.status(200).json({ message: "Logged out" });
+    return true;
   } catch (err) {
-    return res.status(401).json({ errors: "Unauthorized" });
+    throw new ResponseError(404, err.message);
   }
 };
 

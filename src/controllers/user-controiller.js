@@ -41,7 +41,7 @@ const logout = async (req, res, next) => {
   try {
     await userServices.logout(req.user.username, req.cookies.sso_token);
     res.status(200).json({
-      data: "OK",
+      status: true,
     });
   } catch (e) {
     next(e);
