@@ -27,7 +27,7 @@ export const authMiddleware = async (req, res, next) => {
       }
     );
 
-    if (ssoResponse.status !== 200 || !ssoResponse.data?.data?.user) {
+    if (ssoResponse.status !== 200) {
       return res.status(401).json({ errors: "Unauthorized" });
     }
 

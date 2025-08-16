@@ -14,10 +14,13 @@ publicRouter.get("/api/verify-sso", async (req, res) => {
       `${process.env.SSO_SERVICE_URL}/api/verify-sso`,
       {
         headers: { "x-app-key": process.env.SSO_API_KEY },
+      },
+      {
+        withCredentials: true,
       }
     );
 
-    return res.status(200).json({ user: response.data });
+    return res.status(200).json({ data: response.data });
   } catch (err) {
     console.error(err);
     return res.status(403).json({ error: "Invalid or expired token" });

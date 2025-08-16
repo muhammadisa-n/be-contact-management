@@ -15,4 +15,4 @@ web.use(
 );
 web.use(cookieParser());
 web.use(mainRouter);
-// web.use(errorMiddleware);
+web.use(errorMiddleware);
