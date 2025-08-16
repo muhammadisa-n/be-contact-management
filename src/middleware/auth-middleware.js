@@ -5,7 +5,6 @@ import "dotenv/config";
 export const authMiddleware = async (req, res, next) => {
   const mode = process.env.NODE_ENV;
   if (mode === "development") {
-    // Local token auth
     const token = req.get("Authorization");
     if (!token) {
       return res.status(401).json({ errors: "Unauthorized" });
@@ -18,11 +17,14 @@ export const authMiddleware = async (req, res, next) => {
     return next();
   }
   try {
+    const sso_token = req.cookies.sso_token;
+    console.log(sso_token);
     const ssoResponse = await axios.get(
       `${process.env.SSO_SERVICE_URL}/api/verify-sso`,
       {
         headers: {
-          "x-app-key": process.env.SSO_API_KEY,
+          "x-app-key": process.env.SSO_APP_KEY,
+          "x-token": sso_token,
         },
       }
     );

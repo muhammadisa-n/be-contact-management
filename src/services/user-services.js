@@ -99,7 +99,7 @@ const update = async (request) => {
   });
 };
 
-const logout = async (username) => {
+const logout = async (username, token) => {
   username = validate(getUserValidation, username);
   const mode = process.env.NODE_ENV;
   if (mode === "development") {
@@ -123,7 +123,8 @@ const logout = async (username) => {
       `${process.env.SSO_SERVICE_URL}/api/logout`,
       {
         headers: {
-          "x-app-key": process.env.SSO_API_KEY,
+          "x-app-key": process.env.SSO_APP_KEY,
+          "x-token": token,
           withCredentials: true,
         },
       }

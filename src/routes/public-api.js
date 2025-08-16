@@ -9,12 +9,21 @@ publicRouter.get("/api/verify-sso", async (req, res) => {
   if (process.env.NODE_ENV !== "production") {
     return res.status(400).json({ error: "SSO only available in production" });
   }
+  const token = req.cookies.sso_token;
+  if (!token) {
+    return res
+      .status(403)
+      .json({ status: false, error: "Invalid or expired token" });
+  }
   try {
     const response = await axios.get(
       `${process.env.SSO_SERVICE_URL}/api/verify-sso`,
       {
-        headers: { "x-app-key": process.env.SSO_API_KEY },
-        withCredentials: true,
+        headers: {
+          "x-app-key": process.env.SSO_APP_KEY,
+          "x-token": token,
+          withCredentials: true,
+        },
       }
     );
 
