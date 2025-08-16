@@ -17,13 +17,18 @@ export const authMiddleware = async (req, res, next) => {
     return next();
   }
   try {
+    const header = req.get("x-app-key");
+    if (header !== process.env.SSO_APP_KEY) {
+      return res.status(401).json({ errors: "Missing Header Requirement" });
+    }
     const sso_token = req.cookies.sso_token;
-    console.log(sso_token);
-    const ssoResponse = await axios.get(
+    const ssoResponse = await axios.post(
       `${process.env.SSO_SERVICE_URL}/api/verify-sso`,
       {
+        app_key: process.env.SSO_APP_KEY,
+      },
+      {
         headers: {
-          "x-app-key": process.env.SSO_APP_KEY,
           "x-token": sso_token,
         },
       }

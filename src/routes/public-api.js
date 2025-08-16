@@ -5,9 +5,13 @@ import axios from "axios";
 const publicRouter = new express.Router();
 publicRouter.post("/api/users/register", userControiller.register);
 publicRouter.post("/api/users/login", userControiller.login);
-publicRouter.get("/api/verify-sso", async (req, res) => {
+publicRouter.post("/api/verify-sso", async (req, res) => {
   if (process.env.NODE_ENV !== "production") {
     return res.status(400).json({ error: "SSO only available in production" });
+  }
+  const header = req.get("x-app-key");
+  if (header !== process.env.SSO_APP_KEY || !header) {
+    return res.status(401).json({ errors: "Missing Header Requirement" });
   }
   const token = req.cookies.sso_token;
   if (!token) {
@@ -16,13 +20,14 @@ publicRouter.get("/api/verify-sso", async (req, res) => {
       .json({ status: false, error: "Invalid or expired token" });
   }
   try {
-    const response = await axios.get(
+    const response = await axios.post(
       `${process.env.SSO_SERVICE_URL}/api/verify-sso`,
       {
+        app_key: process.env.SSO_APP_KEY,
+      },
+      {
         headers: {
-          "x-app-key": process.env.SSO_APP_KEY,
           "x-token": token,
-          withCredentials: true,
         },
       }
     );

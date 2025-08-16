@@ -119,11 +119,13 @@ const logout = async (username, token) => {
   }
 
   try {
-    const ssoResponse = await axios.get(
+    const ssoResponse = await axios.post(
       `${process.env.SSO_SERVICE_URL}/api/logout`,
       {
+        "x-app-key": process.env.SSO_APP_KEY,
+      },
+      {
         headers: {
-          "x-app-key": process.env.SSO_APP_KEY,
           "x-token": token,
           withCredentials: true,
         },
