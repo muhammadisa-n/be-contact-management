@@ -138,6 +138,7 @@ const logout = async (username, token) => {
     return true;
   } catch (err) {
     throw new ResponseError(404, err.message);
+    console.error(err);
   }
 };
 
