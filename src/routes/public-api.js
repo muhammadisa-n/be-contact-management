@@ -14,8 +14,6 @@ publicRouter.get("/api/verify-sso", async (req, res) => {
       `${process.env.SSO_SERVICE_URL}/api/verify-sso`,
       {
         headers: { "x-app-key": process.env.SSO_API_KEY },
-      },
-      {
         withCredentials: true,
       }
     );
