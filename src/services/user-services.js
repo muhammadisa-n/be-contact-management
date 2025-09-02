@@ -125,6 +125,7 @@ const logout = async (username, token) => {
         app_key: process.env.SSO_APP_KEY,
       },
       {
+        withCredentials: true,
         headers: {
           "x-token": token,
         },
