@@ -39,10 +39,20 @@ const update = async (req, res, next) => {
 };
 const logout = async (req, res, next) => {
   try {
+    const mode = process.env.NODE_ENV;
     const response = await userServices.logout(
       req.user.username,
       req.cookies.sso_token
     );
+    if (mode === "production") {
+      res.clearCookie("sso_token", {
+        path: "/",
+        domain: ".muhammad-isa.my.id",
+        httpOnly: true,
+        secure: true,
+        sameSite: "None",
+      });
+    }
     res.status(200).json({
       status: response,
     });
